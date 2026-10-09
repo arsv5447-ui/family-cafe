@@ -23,10 +23,10 @@ function Header({ onMenuClick }) {
   return (
     <header className="site-header">
       <div className="container nav-wrap">
-        <a className="brand" href="#" aria-label="Тиффани — на главную">
-          <span className="brand-mark">Т</span>
+        <a className="brand" href="#" aria-label="Семья — на главную">
+          <span className="brand-mark"><img src="/family-cafe/tiffany-monkey.png" alt="" /></span>
           <span>
-            <strong>Тиффани</strong>
+            <strong>Семья</strong>
             <small>семейное кафе</small>
           </span>
         </a>
@@ -116,7 +116,7 @@ function About() {
           <div className="eyebrow">Немного о нас</div>
           <h2>Место, куда приходят за вкусом — <em>а остаются за атмосферой.</em></h2>
           <p>
-            Мы создали «Тиффани» как маленькое семейное кафе, где можно спокойно
+            Мы создали «Семья» как маленькое семейное кафе, где можно спокойно
             позавтракать, встретиться с друзьями или провести вечер с близкими.
           </p>
           <div className="about-points">
@@ -199,8 +199,8 @@ function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <a className="brand brand-light" href="#">
-              <span className="brand-mark">Т</span>
-              <span><strong>Тиффани</strong><small>семейное кафе</small></span>
+              <span className="brand-mark"><img src="/family-cafe/tiffany-monkey.png" alt="" /></span>
+              <span><strong>Семья</strong><small>семейное кафе</small></span>
             </a>
             <p>Место для вкусных завтраков,<br />долгих разговоров и счастливых семей.</p>
           </div>
@@ -222,7 +222,7 @@ function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Тиффани. Все права защищены.</span>
+          <span>© 2026 Семья. Все права защищены.</span>
           <span>Сделано с любовью к хорошей еде.</span>
         </div>
       </div>
