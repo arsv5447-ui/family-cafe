@@ -130,34 +130,62 @@ function About() {
   );
 }
 
+function formatPrice(item) {
+  return `${item.priceFrom ? "от " : ""}${item.price} руб.`;
+}
+
 function MenuCard({ item }) {
   return (
-    <article className="menu-card">
-      <div className="card-image-wrap">
-        <img src={item.image} alt={item.name} loading="lazy" />
-        {item.badge && <span className="food-badge">{item.badge}</span>}
-      </div>
+    <article className={item.image ? "menu-card" : "menu-card no-photo"}>
+      {item.image && (
+        <div className="card-image-wrap">
+          <img src={item.image} alt={item.name} loading="lazy" />
+          {item.badge && <span className="food-badge">{item.badge}</span>}
+        </div>
+      )}
       <div className="card-content">
         <div className="card-title-row">
           <h3>{item.name}</h3>
-          <span className="price">{item.price.toFixed(2).replace(".", ",")} €</span>
+          <span className="price">{formatPrice(item)}</span>
         </div>
-        <p>{item.description}</p>
-        <span className="weight">{item.weight}</span>
+        {item.description && <p>{item.description}</p>}
+        {item.weight && <span className="weight">{item.weight}</span>}
       </div>
     </article>
   );
 }
 
-function MenuSection() {
-  const [activeCategory, setActiveCategory] = useState("all");
+const ALL_ID = "all";
 
-  const filteredItems = useMemo(
-    () => activeCategory === "all"
-      ? menuItems
-      : menuItems.filter((item) => item.category === activeCategory),
-    [activeCategory]
-  );
+function groupItems(items) {
+  const result = [];
+  items.forEach((item) => {
+    const title = item.group || "";
+    let group = result.find((g) => g.title === title);
+    if (!group) {
+      group = { title, items: [] };
+      result.push(group);
+    }
+    group.items.push(item);
+  });
+  return result;
+}
+
+function MenuSection() {
+  const [activeCategory, setActiveCategory] = useState(ALL_ID);
+  const tabs = [{ id: ALL_ID, label: "Всё меню" }, ...categories];
+  const current = categories.find((category) => category.id === activeCategory);
+
+  // Разделы для показа: у «Всё меню» это все разделы подряд, иначе один выбранный.
+  const sections = useMemo(() => {
+    const list = activeCategory === ALL_ID ? categories : categories.filter((c) => c.id === activeCategory);
+    return list.map((category) => ({
+      id: category.id,
+      title: activeCategory === ALL_ID ? category.label : "",
+      note: activeCategory === ALL_ID ? category.note : "",
+      groups: groupItems(menuItems.filter((item) => item.category === category.id)),
+    }));
+  }, [activeCategory]);
 
   return (
     <section className="menu-section section" id="menu">
@@ -170,8 +198,8 @@ function MenuSection() {
           <p>Простая, свежая и понятная еда,<br className="desktop-only" /> которую хочется заказывать снова.</p>
         </div>
 
-        <div className="category-list" role="tablist" aria-label="Категории меню">
-          {categories.map((category) => (
+        <div className="category-list" role="tablist" aria-label="Разделы меню">
+          {tabs.map((category) => (
             <button
               key={category.id}
               className={activeCategory === category.id ? "category active" : "category"}
@@ -184,9 +212,22 @@ function MenuSection() {
           ))}
         </div>
 
-        <div className="menu-grid">
-          {filteredItems.map((item) => <MenuCard key={item.id} item={item} />)}
-        </div>
+        {current?.note && <p className="category-note">{current.note}</p>}
+
+        {sections.map((section) => (
+          <div className={section.title ? "menu-block" : undefined} key={section.id}>
+            {section.title && <h2 className="menu-block-title">{section.title}</h2>}
+            {section.note && <p className="category-note">{section.note}</p>}
+            {section.groups.map((group) => (
+              <div className="menu-group" key={group.title || "all"}>
+                {group.title && <h3 className="menu-group-title">{group.title}</h3>}
+                <div className="menu-grid">
+                  {group.items.map((item) => <MenuCard key={item.id} item={item} />)}
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -215,12 +256,11 @@ function Footer() {
           </div>
           <div className="footer-column">
             <h4>Время работы</h4>
-            <div><Clock3 size={17} /> Пн–Пт: 08:00–22:00</div>
-            <div><Clock3 size={17} /> Сб–Вс: 09:00–23:00</div>
+            <div><Clock3 size={17} /> Ежедневно: 10:00–22:00</div>
           </div>
           <div className="footer-column">
             <h4>Следите за нами</h4>
-            <a href="#" className="social"><Instagram size={18} /> Instagram</a>
+            <a href="https://www.instagram.com/family_cafe_minsk/" className="social" target="_blank" rel="noreferrer"><Instagram size={18} /> Instagram</a>
           </div>
         </div>
         <div className="footer-bottom">
