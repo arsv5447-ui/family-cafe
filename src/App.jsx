@@ -104,11 +104,11 @@ function About() {
       <div className="container about-grid">
         <div className="about-photo">
           <img
-            src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1000&q=85"
-            alt="Столик в уютном кафе"
+            src="/family-cafe/about.jpg"
+            alt="Игровая зона кафе «Семья»"
           />
           <div className="about-badge">
-            <span>с 2018</span>
+            <span>с 2022</span>
             <strong>готовим<br />для своих</strong>
           </div>
         </div>
