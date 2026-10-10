@@ -206,10 +206,12 @@ function Footer() {
           </div>
           <div className="footer-column">
             <h4>Мы здесь</h4>
-            <a href="https://maps.google.com/?q=Vienna" target="_blank" rel="noreferrer">
-              <MapPin size={17} /> Семейная улица, 12
-            </a>
-            <a href="tel:+4312345678"><Phone size={17} /> +43 1 234 56 78</a>
+            <div><MapPin size={17} /> Минск, проспект Дзержинского, 24</div>
+            <div className="map-links">
+              <a href="https://www.google.com/maps/search/?api=1&query=%D0%9C%D0%B8%D0%BD%D1%81%D0%BA%2C+%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82+%D0%94%D0%B7%D0%B5%D1%80%D0%B6%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%B3%D0%BE+24" target="_blank" rel="noreferrer">Google Карты</a>
+              <a href="https://yandex.by/maps/?text=%D0%9C%D0%B8%D0%BD%D1%81%D0%BA%2C+%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82+%D0%94%D0%B7%D0%B5%D1%80%D0%B6%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%B3%D0%BE+24" target="_blank" rel="noreferrer">Яндекс Карты</a>
+            </div>
+            <a href="tel:+375336777617"><Phone size={17} /> +375 33 677 76 17</a>
           </div>
           <div className="footer-column">
             <h4>Время работы</h4>

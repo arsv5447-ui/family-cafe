@@ -496,6 +496,13 @@ h1 em, h2 em {
 }
 .footer-column a:hover { color: var(--tiffany); }
 .social { color: white !important; }
+.footer-column .map-links { margin: -4px 0 14px 26px; gap: 16px; }
+.footer-column .map-links a {
+  margin: 0;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .footer-bottom {
   display: flex;
   justify-content: space-between;
