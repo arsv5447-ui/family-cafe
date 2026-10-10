@@ -83,12 +83,12 @@ function Hero({ onMenuClick }) {
         <div className="hero-visual reveal">
           <div className="hero-card">
             <img
-              src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=90"
-              alt="Уютный интерьер семейного кафе"
+              src="/family-cafe/hero.jpg"
+              alt="Интерьер кафе «Семья»"
             />
             <div className="floating-rating">
               <Star size={16} fill="currentColor" />
-              <div><strong>4.9</strong><span>любят гости</span></div>
+              <div><strong>4.7</strong><span>любят гости</span></div>
             </div>
             <div className="floating-tag">Свежо · Вкусно · С любовью</div>
           </div>
