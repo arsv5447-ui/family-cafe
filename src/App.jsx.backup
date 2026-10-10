@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowRight,
   Clock3,
@@ -11,8 +11,6 @@ import {
   X,
 } from "lucide-react";
 import { categories, menuItems } from "./data/menu";
-import { ORDERABLE_CATEGORIES } from "./config";
-import { CartBar, CartDrawer, QtyControl } from "./Cart";
 
 function Header({ onMenuClick }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,10 +23,10 @@ function Header({ onMenuClick }) {
   return (
     <header className="site-header">
       <div className="container nav-wrap">
-        <a className="brand" href="#" aria-label="Семья — на главную">
-          <span className="brand-mark"><img src="/family-cafe/logo.png" alt="" /></span>
+        <a className="brand" href="#" aria-label="Тиффани — на главную">
+          <span className="brand-mark">Т</span>
           <span>
-            <strong>Семья</strong>
+            <strong>Тиффани</strong>
             <small>семейное кафе</small>
           </span>
         </a>
@@ -85,12 +83,12 @@ function Hero({ onMenuClick }) {
         <div className="hero-visual reveal">
           <div className="hero-card">
             <img
-              src="/family-cafe/hero.jpg"
-              alt="Интерьер кафе «Семья»"
+              src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=90"
+              alt="Уютный интерьер семейного кафе"
             />
             <div className="floating-rating">
               <Star size={16} fill="currentColor" />
-              <div><strong>4.7</strong><span>любят гости</span></div>
+              <div><strong>4.9</strong><span>любят гости</span></div>
             </div>
             <div className="floating-tag">Свежо · Вкусно · С любовью</div>
           </div>
@@ -106,11 +104,11 @@ function About() {
       <div className="container about-grid">
         <div className="about-photo">
           <img
-            src="/family-cafe/about.jpg"
-            alt="Игровая зона кафе «Семья»"
+            src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1000&q=85"
+            alt="Столик в уютном кафе"
           />
           <div className="about-badge">
-            <span>с 2022</span>
+            <span>с 2018</span>
             <strong>готовим<br />для своих</strong>
           </div>
         </div>
@@ -118,7 +116,7 @@ function About() {
           <div className="eyebrow">Немного о нас</div>
           <h2>Место, куда приходят за вкусом — <em>а остаются за атмосферой.</em></h2>
           <p>
-            Мы создали «Семья» как маленькое семейное кафе, где можно спокойно
+            Мы создали «Тиффани» как маленькое семейное кафе, где можно спокойно
             позавтракать, встретиться с друзьями или провести вечер с близкими.
           </p>
           <div className="about-points">
@@ -132,67 +130,34 @@ function About() {
   );
 }
 
-function formatPrice(item) {
-  return `${item.priceFrom ? "от " : ""}${item.price} руб.`;
-}
-
-function MenuCard({ item, qty, onAdd, onRemove }) {
+function MenuCard({ item }) {
   return (
-    <article className={item.image ? "menu-card" : "menu-card no-photo"}>
-      {item.image && (
-        <div className="card-image-wrap">
-          <img src={item.image} alt={item.name} loading="lazy" />
-          {item.badge && <span className="food-badge">{item.badge}</span>}
-        </div>
-      )}
+    <article className="menu-card">
+      <div className="card-image-wrap">
+        <img src={item.image} alt={item.name} loading="lazy" />
+        {item.badge && <span className="food-badge">{item.badge}</span>}
+      </div>
       <div className="card-content">
         <div className="card-title-row">
           <h3>{item.name}</h3>
-          <span className="price">{formatPrice(item)}</span>
+          <span className="price">{item.price.toFixed(2).replace(".", ",")} €</span>
         </div>
-        {item.description && <p>{item.description}</p>}
-        {item.weight && <span className="weight">{item.weight}</span>}
-        {onAdd && (
-          <div className="card-order">
-            <QtyControl qty={qty} onAdd={() => onAdd(item)} onRemove={() => onRemove(item)} />
-          </div>
-        )}
+        <p>{item.description}</p>
+        <span className="weight">{item.weight}</span>
       </div>
     </article>
   );
 }
 
-const ALL_ID = "all";
+function MenuSection() {
+  const [activeCategory, setActiveCategory] = useState("all");
 
-function groupItems(items) {
-  const result = [];
-  items.forEach((item) => {
-    const title = item.group || "";
-    let group = result.find((g) => g.title === title);
-    if (!group) {
-      group = { title, items: [] };
-      result.push(group);
-    }
-    group.items.push(item);
-  });
-  return result;
-}
-
-function MenuSection({ cart, add, remove }) {
-  const [activeCategory, setActiveCategory] = useState(ALL_ID);
-  const tabs = [{ id: ALL_ID, label: "Всё меню" }, ...categories];
-  const current = categories.find((category) => category.id === activeCategory);
-
-  // Разделы для показа: у «Всё меню» это все разделы подряд, иначе один выбранный.
-  const sections = useMemo(() => {
-    const list = activeCategory === ALL_ID ? categories : categories.filter((c) => c.id === activeCategory);
-    return list.map((category) => ({
-      id: category.id,
-      title: activeCategory === ALL_ID ? category.label : "",
-      note: activeCategory === ALL_ID ? category.note : "",
-      groups: groupItems(menuItems.filter((item) => item.category === category.id)),
-    }));
-  }, [activeCategory]);
+  const filteredItems = useMemo(
+    () => activeCategory === "all"
+      ? menuItems
+      : menuItems.filter((item) => item.category === activeCategory),
+    [activeCategory]
+  );
 
   return (
     <section className="menu-section section" id="menu">
@@ -205,8 +170,8 @@ function MenuSection({ cart, add, remove }) {
           <p>Простая, свежая и понятная еда,<br className="desktop-only" /> которую хочется заказывать снова.</p>
         </div>
 
-        <div className="category-list" role="tablist" aria-label="Разделы меню">
-          {tabs.map((category) => (
+        <div className="category-list" role="tablist" aria-label="Категории меню">
+          {categories.map((category) => (
             <button
               key={category.id}
               className={activeCategory === category.id ? "category active" : "category"}
@@ -219,30 +184,9 @@ function MenuSection({ cart, add, remove }) {
           ))}
         </div>
 
-        {current?.note && <p className="category-note">{current.note}</p>}
-
-        {sections.map((section) => (
-          <div className={section.title ? "menu-block" : undefined} key={section.id}>
-            {section.title && <h2 className="menu-block-title">{section.title}</h2>}
-            {section.note && <p className="category-note">{section.note}</p>}
-            {section.groups.map((group) => (
-              <div className="menu-group" key={group.title || "all"}>
-                {group.title && <h3 className="menu-group-title">{group.title}</h3>}
-                <div className="menu-grid">
-                  {group.items.map((item) => (
-                    <MenuCard
-                      key={item.id}
-                      item={item}
-                      qty={cart[item.id] || 0}
-                      onAdd={ORDERABLE_CATEGORIES.includes(item.category) ? add : undefined}
-                      onRemove={remove}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        ))}
+        <div className="menu-grid">
+          {filteredItems.map((item) => <MenuCard key={item.id} item={item} />)}
+        </div>
       </div>
     </section>
   );
@@ -255,31 +199,30 @@ function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <a className="brand brand-light" href="#">
-              <span className="brand-mark"><img src="/family-cafe/logo.png" alt="" /></span>
-              <span><strong>Семья</strong><small>семейное кафе</small></span>
+              <span className="brand-mark">Т</span>
+              <span><strong>Тиффани</strong><small>семейное кафе</small></span>
             </a>
             <p>Место для вкусных завтраков,<br />долгих разговоров и счастливых семей.</p>
           </div>
           <div className="footer-column">
             <h4>Мы здесь</h4>
-            <div><MapPin size={17} /> Минск, проспект Дзержинского, 24</div>
-            <div className="map-links">
-              <a href="https://www.google.com/maps/search/?api=1&query=%D0%9C%D0%B8%D0%BD%D1%81%D0%BA%2C+%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82+%D0%94%D0%B7%D0%B5%D1%80%D0%B6%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%B3%D0%BE+24" target="_blank" rel="noreferrer">Google Карты</a>
-              <a href="https://yandex.by/maps/?text=%D0%9C%D0%B8%D0%BD%D1%81%D0%BA%2C+%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82+%D0%94%D0%B7%D0%B5%D1%80%D0%B6%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%B3%D0%BE+24" target="_blank" rel="noreferrer">Яндекс Карты</a>
-            </div>
-            <a href="tel:+375336777617"><Phone size={17} /> +375 33 677 76 17</a>
+            <a href="https://maps.google.com/?q=Vienna" target="_blank" rel="noreferrer">
+              <MapPin size={17} /> Семейная улица, 12
+            </a>
+            <a href="tel:+4312345678"><Phone size={17} /> +43 1 234 56 78</a>
           </div>
           <div className="footer-column">
             <h4>Время работы</h4>
-            <div><Clock3 size={17} /> Ежедневно: 10:00–22:00</div>
+            <div><Clock3 size={17} /> Пн–Пт: 08:00–22:00</div>
+            <div><Clock3 size={17} /> Сб–Вс: 09:00–23:00</div>
           </div>
           <div className="footer-column">
             <h4>Следите за нами</h4>
-            <a href="https://www.instagram.com/family_cafe_minsk/" className="social" target="_blank" rel="noreferrer"><Instagram size={18} /> Instagram</a>
+            <a href="#" className="social"><Instagram size={18} /> Instagram</a>
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Семья. Все права защищены.</span>
+          <span>© 2026 Тиффани. Все права защищены.</span>
           <span>Сделано с любовью к хорошей еде.</span>
         </div>
       </div>
@@ -287,39 +230,7 @@ function Footer() {
   );
 }
 
-function loadCart() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("semya-cart") || "{}");
-    return saved && typeof saved === "object" ? saved : {};
-  } catch {
-    return {};
-  }
-}
-
 export default function App() {
-  const [cart, setCart] = useState(loadCart); // { [id]: qty }
-  const [cartOpen, setCartOpen] = useState(false);
-
-  useEffect(() => {
-    try { localStorage.setItem("semya-cart", JSON.stringify(cart)); } catch { /* ignore */ }
-  }, [cart]);
-
-  const add = (item) => setCart((c) => ({ ...c, [item.id]: Math.min((c[item.id] || 0) + 1, 20) }));
-  const remove = (item) =>
-    setCart((c) => {
-      const next = { ...c };
-      if ((next[item.id] || 0) <= 1) delete next[item.id];
-      else next[item.id] -= 1;
-      return next;
-    });
-  const clear = () => setCart({});
-
-  const lines = menuItems
-    .filter((item) => cart[item.id] && ORDERABLE_CATEGORIES.includes(item.category))
-    .map((item) => ({ item, qty: cart[item.id] }));
-  const count = lines.reduce((sum, l) => sum + l.qty, 0);
-  const total = lines.reduce((sum, l) => sum + l.qty * l.item.price, 0);
-
   const scrollToMenu = () => {
     document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -330,19 +241,18 @@ export default function App() {
       <main>
         <Hero onMenuClick={scrollToMenu} />
         <About />
-        <MenuSection cart={cart} add={add} remove={remove} />
+        <MenuSection />
         <section className="visit section">
           <div className="container visit-box">
             <div>
               <div className="eyebrow">Заглядывайте в гости</div>
               <h2>Хорошая еда лучше всего <em>в хорошей компании.</em></h2>
             </div>
+            <a className="primary-btn light-btn" href="#contacts">Наши контакты <ArrowRight size={18} /></a>
           </div>
         </section>
       </main>
       <Footer />
-      <CartBar count={count} total={total} onOpen={() => setCartOpen(true)} />
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} lines={lines} total={total} add={add} remove={remove} clear={clear} />
     </>
   );
 }
