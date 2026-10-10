@@ -24,7 +24,7 @@ function Header({ onMenuClick }) {
     <header className="site-header">
       <div className="container nav-wrap">
         <a className="brand" href="#" aria-label="Семья — на главную">
-          <span className="brand-mark"><img src="/family-cafe/tiffany-monkey.png" alt="" /></span>
+          <span className="brand-mark"><img src="/family-cafe/logo.png" alt="" /></span>
           <span>
             <strong>Семья</strong>
             <small>семейное кафе</small>
@@ -199,7 +199,7 @@ function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <a className="brand brand-light" href="#">
-              <span className="brand-mark"><img src="/family-cafe/tiffany-monkey.png" alt="" /></span>
+              <span className="brand-mark"><img src="/family-cafe/logo.png" alt="" /></span>
               <span><strong>Семья</strong><small>семейное кафе</small></span>
             </a>
             <p>Место для вкусных завтраков,<br />долгих разговоров и счастливых семей.</p>
