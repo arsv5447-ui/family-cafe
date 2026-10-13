@@ -665,3 +665,79 @@ h1 em, h2 em {
 .cart-done h4 { margin: 0 0 10px; font-family: "Playfair Display", serif; font-size: 28px; }
 .cart-done p { color: var(--muted); margin-bottom: 24px; }
 body { padding-bottom: 70px; }
+
+/* ---------- Дни рождения: карусель ---------- */
+.birthday { background: var(--tiffany-soft); }
+.birthday-grid { display: grid; grid-template-columns: 1fr minmax(0, 440px); align-items: center; gap: 90px; }
+.birthday-copy h2 {
+  margin: 18px 0 20px; font-family: "Playfair Display", serif;
+  font-size: clamp(38px, 4vw, 54px); line-height: 1.05; letter-spacing: -.025em; font-weight: 600;
+}
+.birthday-copy > p { max-width: 520px; color: var(--muted); font-size: 16px; line-height: 1.8; }
+.birthday-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 30px; }
+.birthday-actions .primary-btn { display: inline-flex; align-items: center; gap: 9px; }
+.birthday-actions .text-link { display: inline-flex; align-items: center; gap: 8px; }
+
+.carousel { position: relative; width: 100%; }
+.carousel-track {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  border-radius: 28px; box-shadow: var(--shadow); background: white;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-slide { flex: 0 0 100%; scroll-snap-align: start; aspect-ratio: 4 / 5; }
+.carousel-slide img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; }
+.carousel-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.92); color: var(--ink); cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,.18);
+}
+.carousel-arrow.prev { left: 12px; }
+.carousel-arrow.next { right: 12px; }
+.carousel-arrow:disabled { opacity: 0; pointer-events: none; }
+.carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+.carousel-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 99px; background: rgba(38,48,47,.22); cursor: pointer; transition: width .2s, background .2s; }
+.carousel-dots button.active { width: 26px; background: var(--tiffany-dark); }
+
+@media (max-width: 960px) {
+  .birthday-grid { grid-template-columns: 1fr; gap: 40px; }
+  .carousel { max-width: 440px; margin: 0 auto; }
+}
+
+/* ---------- Наше пространство: галерея ---------- */
+.space { background: var(--cream); }
+.space-grid { display: flex; align-items: flex-start; gap: 18px; }
+.space-col { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; gap: 18px; }
+.space-item {
+  position: relative; display: block; width: 100%; margin: 0; padding: 0; border: 0;
+  border-radius: 22px; overflow: hidden; background: var(--tiffany-soft); cursor: zoom-in;
+  box-shadow: 0 10px 30px rgba(38, 48, 47, .08);
+}
+.space-item img { display: block; width: 100%; height: auto; transition: transform .5s ease; }
+.space-item:hover img { transform: scale(1.04); }
+.space-item::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); pointer-events: none;
+}
+
+.lightbox {
+  position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center;
+  gap: 18px; padding: 24px; background: rgba(20, 28, 27, .92);
+}
+.lightbox figure { margin: 0; max-width: min(92vw, 900px); text-align: center; }
+.lightbox figure img { display: block; max-width: 100%; max-height: 80vh; margin: 0 auto; border-radius: 16px; }
+.lightbox figcaption { margin-top: 14px; color: #cfd8d6; font-size: 13px; }
+.lightbox-close, .lightbox-nav {
+  display: grid; place-items: center; flex: none; width: 46px; height: 46px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.14); color: white; cursor: pointer;
+}
+.lightbox-close:hover, .lightbox-nav:hover { background: rgba(255,255,255,.26); }
+.lightbox-close { position: absolute; top: 18px; right: 18px; }
+
+@media (max-width: 960px) { .space-grid, .space-col { gap: 14px; } .space-item { border-radius: 18px; } }
+@media (max-width: 720px) {
+  .lightbox { padding: 12px; gap: 0; }
+  .lightbox-nav { position: absolute; bottom: 18px; background: rgba(255,255,255,.2); }
+  .lightbox-nav.prev { left: 18px; }
+  .lightbox-nav.next { right: 18px; }
+  .lightbox figure img { max-height: 72vh; }
+}

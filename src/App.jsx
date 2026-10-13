@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { categories, menuItems } from "./data/menu";
 import { ORDERABLE_CATEGORIES } from "./config";
+import Birthday from "./Birthday";
+import Space from "./Space";
 import { CartBar, CartDrawer, QtyControl } from "./Cart";
 
 function Header({ onMenuClick }) {
@@ -35,6 +37,8 @@ function Header({ onMenuClick }) {
 
         <nav className={`desktop-nav ${mobileOpen ? "mobile-open" : ""}`}>
           <a href="#about" onClick={() => setMobileOpen(false)}>О нас</a>
+          <a href="#space" onClick={() => setMobileOpen(false)}>Пространство</a>
+          <a href="#birthday" onClick={() => setMobileOpen(false)}>Праздники</a>
           <a href="#menu" onClick={() => setMobileOpen(false)}>Меню</a>
           <a href="#contacts" onClick={() => setMobileOpen(false)}>Контакты</a>
           <button className="nav-cta" onClick={goToMenu}>Смотреть меню</button>
@@ -330,6 +334,8 @@ export default function App() {
       <main>
         <Hero onMenuClick={scrollToMenu} />
         <About />
+        <Space />
+        <Birthday />
         <MenuSection cart={cart} add={add} remove={remove} />
         <section className="visit section">
           <div className="container visit-box">
