@@ -121,7 +121,6 @@ export default function Space() {
           </button>
           <figure onClick={(e) => e.stopPropagation()}>
             <img src={`/family-cafe/space/${current.n}.jpg`} alt={current.alt} />
-            <figcaption>{current.alt} · {open + 1} / {shown.length}</figcaption>
           </figure>
           <button className="lightbox-nav next" aria-label="Следующее фото" onClick={(e) => { e.stopPropagation(); setOpen((open + 1) % shown.length); }}>
             <ChevronRight size={26} />
